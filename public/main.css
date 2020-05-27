@@ -1,0 +1,9 @@
+@import "fonts/fonts.css";
+
+body {
+    font-family: 'Fira Sans', Arial, Helvetica, sans-serif;
+}
+
+a {
+    font-family: 'Fira Mono', 'Courier New', Courier, monospace;
+}
