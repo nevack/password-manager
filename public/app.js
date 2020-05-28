@@ -1,3 +1,6 @@
+import LoginPage from "./js/pages/LoginPage.js";
+import SignupPage from "./js/pages/SignupPage.js";
+
 let TestPage = {
     render: async () => {
         let view =  /*html*/`
@@ -10,6 +13,12 @@ let TestPage = {
     }
 }
 
+let routes = {
+    "/login": LoginPage,
+    "/signup": SignupPage,
+    "/": LoginPage
+}
+
 async function loadPage(page) {
     console.log("Loaging page...");
     const content = document.getElementById('content');
@@ -17,6 +26,29 @@ async function loadPage(page) {
     await page.after_render();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadPage(TestPage);
-});
+let resolveRoute = (route) => {
+    try {
+        return routes[route];
+    } catch (error) {
+        return undefined;
+    }
+};
+
+let router = (to) => {
+    console.log(location.hash.slice(1).toLowerCase())
+    const url = to || window.location.hash.slice(1) || "/";
+    console.log("Routing to " + url)
+    const routeResolved = resolveRoute(url) || TestPage;
+    loadPage(routeResolved);
+};
+
+// document.addEventListener("DOMContentLoaded", () => {
+//     router()
+// });
+// Listen on hash change:
+window.addEventListener('hashchange',() => router());
+
+// Listen on page load:
+window.addEventListener('load', () => router());
+
+export default router;
