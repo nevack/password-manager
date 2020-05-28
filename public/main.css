@@ -6,6 +6,8 @@
 }
 
 body {
+    padding: 0;
+    margin: 0;
     background: url("./images/dot-grid.png") repeat;
     font-family: var(--font-main);
 }
@@ -91,6 +93,8 @@ body {
 .passwords {
     display: flex;
     justify-content: space-around;
+
+    padding: 16px;
 }
 
 #passwords_list {
@@ -115,7 +119,7 @@ body {
 }
 
 .passwords_item:hover {
-    transform: scale(1.05);
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
 }
 
 .passwords_item_name {
@@ -128,3 +132,46 @@ body {
     flex: 200px 1;
     font-family: var(--font-mono);
 }
+
+.header_wrap {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 64px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
+.header_wrap .logo_wrap {
+    justify-content: flex-start;
+    height: 64px;
+    align-items: center;
+    flex: 320px 1;
+    margin: 0 8px;
+}
+
+.header_wrap .logo {
+    background-image: url("./images/lock-white.svg");
+}
+
+#header_account {
+    font-family: var(--font-mono);
+    margin: 16px;
+}
+
+a#header_signout {
+    margin: 16px;
+    color: #f44336;
+}
+
+a#header_signout:visited {
+    color: #f44336;
+}
+

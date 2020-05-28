@@ -1,4 +1,5 @@
 import router from "../../app.js"
+import {MainHeader} from "../Headers.js";
 
 let PasswordView = {
     render: async (passwordData) => {
@@ -31,6 +32,7 @@ let NoPasswordsView = {
 }
 
 let PasswordsPage = {
+    header: MainHeader,
     render: async () => {
         let view =  /*html*/`
             <div class="passwords">
@@ -48,6 +50,8 @@ let PasswordsPage = {
             return;
         }
 
+        await MainHeader.after_render(user.email);
+
         const db = firebase.firestore();
         const passRef = db.collection('users').doc(user.uid).collection('passwords');
 
@@ -63,7 +67,6 @@ let PasswordsPage = {
         } else {
             list.insertAdjacentHTML('beforeend', await NoPasswordsView.render())
         }
-
     }
 }
 

@@ -1,6 +1,7 @@
 import LoginPage from "./js/pages/LoginPage.js";
 import SignupPage from "./js/pages/SignupPage.js";
 import PasswordsPage from "./js/pages/PasswordsPage.js";
+import {NoopHeader} from "./js/Headers.js";
 
 let TestPage = {
     render: async () => {
@@ -23,6 +24,12 @@ let routes = {
 
 async function loadPage(page) {
     console.log("Loaging page...");
+
+    const headerView = page.header ? page.header : NoopHeader
+    const header = document.getElementById('header');
+    header.innerHTML = await headerView.render();
+    await headerView.after_render();
+
     const content = document.getElementById('content');
     content.innerHTML = await page.render();
     await page.after_render();
