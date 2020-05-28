@@ -34,7 +34,7 @@ let SignupPage = {
 function signup(email, password) {
     const auth = firebase.auth();
     auth.createUserWithEmailAndPassword(email, password).then(() => {
-        router("/login")
+        router("/passwords")
     }).catch(error => alert(error));
 }
 

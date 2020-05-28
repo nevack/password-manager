@@ -35,7 +35,7 @@ function login(email, password) {
     const auth = firebase.auth();
     auth.signInWithEmailAndPassword(email, password)
         .then(() => {
-            console.log("ok");
+            router("/passwords")
         })
         .catch(error => {
             alert(error);

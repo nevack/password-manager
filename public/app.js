@@ -1,5 +1,6 @@
 import LoginPage from "./js/pages/LoginPage.js";
 import SignupPage from "./js/pages/SignupPage.js";
+import PasswordsPage from "./js/pages/PasswordsPage.js";
 
 let TestPage = {
     render: async () => {
@@ -16,6 +17,7 @@ let TestPage = {
 let routes = {
     "/login": LoginPage,
     "/signup": SignupPage,
+    "/passwords": PasswordsPage,
     "/": LoginPage
 }
 
