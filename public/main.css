@@ -5,6 +5,10 @@
     --font-mono: 'Fira Mono', 'Courier New', Courier, monospace;
 }
 
+.mono {
+    font-family: var(--font-mono);
+}
+
 body {
     padding: 0;
     margin: 0;
@@ -123,13 +127,24 @@ body {
 }
 
 .passwords_item_name {
-    flex: 1;
+    flex: 200px 1;
     margin-right: 16px;
     max-width: 200px;
 }
 
 .passwords_item_login {
     flex: 200px 1;
+    font-family: var(--font-mono);
+}
+
+.passwords_item_favicon {
+    display: block;
+    height: 16px;
+    width: 16px;
+    margin-right: 8px;
+}
+
+.passwords_item_url {
     font-family: var(--font-mono);
 }
 
@@ -157,6 +172,10 @@ body {
     margin: 0 8px;
 }
 
+#logo_link {
+    cursor: pointer;
+}
+
 .header_wrap .logo {
     background-image: url("./images/lock-white.svg");
 }
@@ -173,5 +192,68 @@ a#header_signout {
 
 a#header_signout:visited {
     color: #f44336;
+}
+
+#password_form {
+    max-width: 800px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.password_form_control {
+    flex: 320px 1;
+    box-sizing: border-box;
+    display: block;
+    height: 48px;
+    margin: 16px;
+    padding: 16px;
+
+    border-radius: 48px;
+    border: none;
+    outline: none;
+}
+
+.password_form_input {
+    border: 2px solid black;
+}
+
+.password_form_button {
+    background-color: rgba(0, 0, 0, 1);
+    color: white;
+}
+
+.password_form_button:hover {
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.actions {
+    display: flex;
+    padding: 16px 16px 0 16px;
+    justify-content: space-around;
+}
+
+#actions_list {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    justify-content: flex-end;
+    max-width: 800px;
+}
+
+#actions_list > li.actions_list_item {
+    cursor: pointer;
+    box-sizing: border-box;
+    display: block;
+    height: 48px;
+    margin: 16px 0 0 16px;
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 1);
+    color: white;
+    border-radius: 48px;
+    border: none;
+    outline: none;
 }
 
