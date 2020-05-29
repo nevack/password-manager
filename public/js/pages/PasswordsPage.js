@@ -52,22 +52,35 @@ let PasswordsPage = {
 
         await MainHeader.after_render(user.email);
 
-        const db = firebase.firestore();
-        const passRef = db.collection('users').doc(user.uid).collection('passwords');
+        let list = document.getElementById("passwords_list");
 
-        let pass = await passRef.get().catch(function(error) {
-            alert("Error getting document: " + error);
-        });
+        let passwords = await getPasswords(user.uid);
 
-        let list = document.getElementById("passwords_list")
-        if (pass.exists) {
-            for (let index = 0; index < pass.length; index++) {
-                list.insertAdjacentHTML('beforeend', await PasswordView.render(pass[index]))
-            }
-        } else {
-            list.insertAdjacentHTML('beforeend', await NoPasswordsView.render())
+        if (!passwords) {
+            list.insertAdjacentHTML('beforeend', await NoPasswordsView.render());
+            return;
         }
+
+        for (const password of passwords) {
+            list.insertAdjacentHTML('beforeend', await PasswordView.render(password));
+        }
+
     }
+}
+
+async function getPasswords(userId) {
+    const db = firebase.firestore();
+    const passRef = db.collection('users').doc(user.uid).collection('passwords');
+
+    let passQuery = await passRef.get().catch(function(error) {
+        alert("Error getting document: " + error);
+    });
+
+    if (!passQuery || passQuery.empty) {
+        return null;
+    }
+
+    return passQuery.docs.map(query => query.data());
 }
 
 export default PasswordsPage;
