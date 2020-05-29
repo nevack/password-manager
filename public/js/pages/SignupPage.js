@@ -1,5 +1,5 @@
 import navigate from "../../app.js";
-import {signup, ifLoggedIn} from "../users.js";
+import {ifLoggedIn, signup} from "../users.js";
 import {onClick} from "../utils.js";
 
 let SignupPage = {
@@ -7,7 +7,7 @@ let SignupPage = {
         ifLoggedIn(() => navigate("/passwords"));
     },
     render: async () => {
-        let view =  /*html*/`
+        return `
             <div class="form_content">
                 <div class="card_wrap">
                     <div class="logo_wrap">
@@ -18,13 +18,12 @@ let SignupPage = {
                     <form id="login_form">
                         <input type="email" name="email" class="login_form_control login_input" placeholder="Your E-mail" required>
                         <input type="password" name="password" class="login_form_control login_input" minlength="8" placeholder="Your Password" required>
-                        <button id="login_submit" type="submit" class="login_form_control login_button">Sign Up</button>
-                        <a id="log_in" href="#">Want to Log In?</a>
+                        <button id="login_submit" type="submit" class="clickable hoverable button login_form_control">Sign Up</button>
+                        <a id="log_in" href="/login">Want to Log In?</a>
                     </form>
                 </div>
             </div>
-        `
-        return view;
+        `;
     },
     after_render: async () => {
         let form = document.getElementById("login_form");

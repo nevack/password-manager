@@ -6,9 +6,9 @@ import navigate from "../../app.js";
 let PasswordView = {
     render: async (passwordData) => {
         return `
-            <li class="passwords_item" id="${passwordData.id}">
+            <li class="passwords_item hoverable " id="${passwordData.id}">
                 <span class="passwords_item_name">${passwordData.name}</span>
-                <span class="passwords_item_login">${passwordData.login}</span>
+                <span class="passwords_item_login mono">${passwordData.login}</span>
             </li>
         `;
     },
@@ -18,8 +18,8 @@ let PasswordView = {
             const hostname = (new URL(passwordData.website)).hostname;
 
             element.insertAdjacentHTML('beforeend', `
-                <img class="passwords_item_favicon" src="https://s2.googleusercontent.com/s2/favicons?domain=${hostname || "example.com"}">
-                <a href="${passwordData.website}" target="_blank">${passwordData.website}</a>
+                <img class="passwords_item_favicon" src="https://s2.googleusercontent.com/s2/favicons?domain=${hostname || "example.com"}" alt="favicon">
+                <a class="mono" href="${passwordData.website}" target="_blank">${passwordData.website}</a>
             `)
         }
     }
@@ -44,7 +44,7 @@ let PasswordsPage = {
         return `
             <div class="actions">
                 <ul id="actions_list">
-                    <li class="actions_list_item" id="action-add">
+                    <li class="actions_list_item clickable button" id="action-add">
                         Add new password entry
                     </li>
                 </ul>

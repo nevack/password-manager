@@ -3,10 +3,18 @@
 :root {
     --font-main: 'Fira Sans', Arial, Helvetica, sans-serif;
     --font-mono: 'Fira Mono', 'Courier New', Courier, monospace;
-}
 
-.mono {
-    font-family: var(--font-mono);
+    --bg-primary: rgba(255, 255, 255, 1);
+    --bg-secondary: rgba(0, 0, 0, 1);
+
+    --border-default: 2px solid var(--bg-secondary);
+    --shadow-default: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+    --shadow-hovered-default: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
+    --container-width: 800px;
+    --header-height: 64px;
+
+    --color-green: rgb(76, 175, 80);
+    --color-red: rgb(244, 67, 54);
 }
 
 body {
@@ -14,6 +22,46 @@ body {
     margin: 0;
     background: url("./images/dot-grid.png") repeat;
     font-family: var(--font-main);
+}
+
+.mono {
+    font-family: var(--font-mono);
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.hoverable {
+    box-shadow: var(--shadow-default);
+}
+
+.hoverable:hover {
+    box-shadow: var(--shadow-hovered-default);
+}
+
+.button {
+    display: block;
+    --height: 32px;
+    height: var(--height);
+
+    background-color: var(--bg-secondary);
+    color: var(--bg-primary);
+
+    border: none;
+    outline: none;
+    border-radius: var(--height);
+}
+
+.button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.card_wrap {
+    background: var(--bg-primary);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow-default);
 }
 
 .form_content {
@@ -28,6 +76,7 @@ body {
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    margin-top: 16px;
 }
 
 .logo_wrap > h1 {
@@ -47,51 +96,35 @@ body {
     display: block;
     width: 100%;
     height: 32px;
-    margin: 16px 0;
+    margin: 32px 0;
 
     border-radius: 32px;
     border: none;
     outline: none;
 }
 
-.login_button {
-    background-color: rgba(0, 0, 0, 1);
-    color: white;
-}
-
-.login_button:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
 .login_input {
     padding: 0 8px;
     font-family: var(--font-mono);
-    border: 2px solid black;
+    border: var(--border-default);
 }
 
 .login_input:valid {
-    border-color: #4caf50;
+    border-color: var(--color-green);
 }
 
 .login_input:invalid {
-    border-color: #f44336;
+    border-color: var(--color-red);
 }
 
 .login_input:empty {
-    border-color: black;
-}
-
-.card_wrap {
-    background: rgb(255, 255, 255);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+    border-color: var(--bg-secondary);
 }
 
 #login_form {
     width: 320px;
     margin-top: 16px;
-    padding: 0px;
+    padding: 0;
 }
 
 .passwords {
@@ -105,7 +138,7 @@ body {
     margin: 0;
     padding: 0;
     flex: 1;
-    max-width: 800px;
+    max-width: var(--container-width);
 }
 
 .passwords_item {
@@ -115,15 +148,11 @@ body {
     justify-content: flex-start;
 
     margin: 16px 0;
-    background: rgb(255, 255, 255);
-    border-radius: 8px;
-    border: 2px solid black;
+    background: var(--bg-primary);
+    color: var(--bg-secondary);
+    border-radius: 16px 0 16px 0;
+    border: var(--border-default);
     padding: 16px;
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
-}
-
-.passwords_item:hover {
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
 }
 
 .passwords_item_name {
@@ -134,7 +163,6 @@ body {
 
 .passwords_item_login {
     flex: 200px 1;
-    font-family: var(--font-mono);
 }
 
 .passwords_item_favicon {
@@ -153,27 +181,23 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 64px;
+    min-height: var(--header-height);
 
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
 
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
+    background-color: var(--bg-secondary);
+    color: var(--bg-primary);
 }
 
 .header_wrap .logo_wrap {
     justify-content: flex-start;
-    height: 64px;
+    height: var(--header-height);
     align-items: center;
     flex: 320px 1;
     margin: 0 8px;
-}
-
-#logo_link {
-    cursor: pointer;
 }
 
 .header_wrap .logo {
@@ -181,21 +205,20 @@ body {
 }
 
 #header_account {
-    font-family: var(--font-mono);
     margin: 16px;
 }
 
 a#header_signout {
     margin: 16px;
-    color: #f44336;
+    color: var(--color-red);
 }
 
 a#header_signout:visited {
-    color: #f44336;
+    color: var(--color-red);
 }
 
 #password_form {
-    max-width: 800px;
+    max-width: var(--container-width);
     display: flex;
     flex-flow: row wrap;
 }
@@ -214,17 +237,11 @@ a#header_signout:visited {
 }
 
 .password_form_input {
-    border: 2px solid black;
+    border: var(--border-default);
 }
 
 .password_form_button {
-    background-color: rgba(0, 0, 0, 1);
-    color: white;
-}
-
-.password_form_button:hover {
-    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
-    background-color: rgba(0, 0, 0, 0.8);
+    --height: 48px;
 }
 
 .actions {
@@ -240,20 +257,13 @@ a#header_signout:visited {
 
     display: flex;
     justify-content: flex-end;
-    max-width: 800px;
+    max-width: var(--container-width);
 }
 
-#actions_list > li.actions_list_item {
-    cursor: pointer;
-    box-sizing: border-box;
-    display: block;
-    height: 48px;
+.actions_list_item {
+    --height: 48px;
+    line-height: var(--height);
+    padding: 0 16px;
     margin: 16px 0 0 16px;
-    padding: 16px;
-    background-color: rgba(0, 0, 0, 1);
-    color: white;
-    border-radius: 48px;
-    border: none;
-    outline: none;
 }
 

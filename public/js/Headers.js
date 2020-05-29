@@ -10,11 +10,11 @@ let MainHeader = {
     render: async () => {
         return `
             <div class="header_wrap">
-                <div class="logo_wrap" id="logo_link">
+                <div class="logo_wrap clickable" id="logo_link">
                     <span class="logo"></span>
                     <h1>Password Manager</h1>
                 </div>
-                <span id="header_account"></span>
+                <span id="header_account" class="mono"></span>
                 <a href="#" id="header_signout">Sign Out</a>
             </div>
         `;

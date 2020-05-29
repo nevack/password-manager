@@ -16,7 +16,7 @@ let CreatePage = {
                     <input type="text" name="login" class="mono password_form_control password_form_input" placeholder="Login" required>
                     <input type="text" name="password" class="mono password_form_control password_form_input" placeholder="Password" required>
                     <input type="url" name="website" class="mono password_form_control password_form_input" placeholder="Website">
-                    <button id="password_submit" type="submit" class="password_form_control password_form_button">Save</button>
+                    <button id="password_submit" type="submit" class="button hoverable clickable password_form_control password_form_button">Save</button>
                 </form>
             </div>
         `
