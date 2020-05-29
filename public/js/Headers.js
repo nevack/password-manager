@@ -1,4 +1,5 @@
-import router from "../app.js";
+import navigate from "../app.js";
+import {onClick} from "./utils.js";
 
 let NoopHeader = {
     render: async () => {
@@ -29,11 +30,9 @@ let MainHeader = {
             const field = document.getElementById("header_account");
             field.innerText = account
 
-
-            const signout = document.getElementById("header_signout");
-            signout.addEventListener('click', () => {
-                firebase.auth().signOut().then(function() {
-                    router("/login");
+            onClick(document.getElementById("header_signout"), () => {
+                firebase.auth().signOut().then(() => {
+                    navigate("/login");
                 }).catch(alert);
             })
         }
