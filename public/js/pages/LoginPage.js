@@ -1,13 +1,13 @@
 import navigate from "../../app.js";
-import {ifLoggedIn} from "../users.js";
-import {onClick} from "../utils.js";
+import {ifLoggedIn, login} from "../users.js";
+import {onClick, onSubmit} from "../utils.js";
 
 let LoginPage = {
     before_render: async () => {
         ifLoggedIn(() => navigate("/passwords"));
     },
     render: async () => {
-        let view =  /*html*/`
+        return `
             <div class="form_content">
                 <div class="card_wrap">
                     <div class="logo_wrap">
@@ -23,28 +23,17 @@ let LoginPage = {
                     </form>
                 </div>
             </div>
-        `
-        return view;
+        `;
     },
     after_render: async () => {
-        let form = document.getElementById("login_form");
-        form.addEventListener("submit", (event) => {
-            event.preventDefault();
-            const formData = new FormData(form)
-            login(formData.get("email"), formData.get("password"));
+        onSubmit(document.getElementById("login_form"), ({ email, password }) => {
+            login(email, password).then(() => navigate("/passwords"))
         });
 
         onClick(document.getElementById("sign_up"), () => {
             navigate("/signup")
         });
     }
-}
-
-function login(email, password) {
-    const auth = firebase.auth();
-    auth.signInWithEmailAndPassword(email, password)
-        .then(() => navigate("/passwords"))
-        .catch(alert);
 }
 
 export default LoginPage;
