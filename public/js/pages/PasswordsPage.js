@@ -1,60 +1,68 @@
 import {MainHeader} from "../Headers.js";
+import {guardLogin, getUser} from "../users.js";
+import {onClick} from "../utils.js";
 import navigate from "../../app.js";
-import {getUser} from "../users.js";
 
 let PasswordView = {
     render: async (passwordData) => {
-        let view =  /*html*/`
-            <li class="passwords_item">
+        return `
+            <li class="passwords_item hoverable " id="${passwordData.id}">
                 <span class="passwords_item_name">${passwordData.name}</span>
-                <span class="passwords_item_login">${passwordData.login}</span>
-                <a href="${passwordData.website}" target="_blank">${passwordData.website}</a>
+                <span class="passwords_item_login mono">${passwordData.login}</span>
             </li>
-        `
-        return view;
+        `;
     },
-    after_render: async () => {
+    after_render: async (passwordData) => {
+        if (passwordData.website) {
+            let element = document.getElementById(passwordData.id);
+            const hostname = (new URL(passwordData.website)).hostname;
 
+            element.insertAdjacentHTML('beforeend', `
+                <img class="passwords_item_favicon" src="https://s2.googleusercontent.com/s2/favicons?domain=${hostname || "example.com"}" alt="favicon">
+                <a class="mono" href="${passwordData.website}" target="_blank">${passwordData.website}</a>
+            `)
+        }
     }
 }
 
 let NoPasswordsView = {
     render: async () => {
-        let view =  /*html*/`
+        return `
             <li class="passwords_item">
                 No passwords added yet.
             </li>
-        `
-        return view;
+        `;
     },
-    after_render: async () => {
-
-    }
 }
 
 let PasswordsPage = {
     header: MainHeader,
+    before_render: async () => {
+        await guardLogin();
+    },
     render: async () => {
-        let view =  /*html*/`
+        return `
+            <div class="actions">
+                <ul id="actions_list">
+                    <li class="actions_list_item clickable button" id="action-add">
+                        Add new password entry
+                    </li>
+                </ul>
+            </div>
             <div class="passwords">
                 <ul id="passwords_list">
                 </ul>
             </div>
-        `
-        return view;
+        `;
     },
     after_render: async () => {
-        const user = await getUser();
-
-        if (user == null) {
-            navigate("/login")
-            return;
-        }
-
-        await MainHeader.after_render(user.email);
+        onClick(document.getElementById("action-add"), () => {
+            navigate("/create");
+        });
 
         let list = document.getElementById("passwords_list");
 
+        const user = await getUser();
         let passwords = await getPasswords(user.uid);
 
         if (!passwords) {
@@ -64,6 +72,7 @@ let PasswordsPage = {
 
         for (const password of passwords) {
             list.insertAdjacentHTML('beforeend', await PasswordView.render(password));
+            await PasswordView.after_render(password);
         }
     }
 }
@@ -80,7 +89,11 @@ async function getPasswords(userId) {
         return null;
     }
 
-    return passQuery.docs.map(query => query.data());
+    return passQuery.docs.map(query => {
+        const password = query.data();
+        password.id = query.id;
+        return password;
+    });
 }
 
 export default PasswordsPage;
