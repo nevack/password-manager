@@ -1,5 +1,6 @@
-import router from "../../app.js"
 import {MainHeader} from "../Headers.js";
+import navigate from "../../app.js";
+import {getUser} from "../users.js";
 
 let PasswordView = {
     render: async (passwordData) => {
@@ -43,10 +44,10 @@ let PasswordsPage = {
         return view;
     },
     after_render: async () => {
-        const user = firebase.auth().currentUser;
+        const user = await getUser();
 
         if (user == null) {
-            router("/login")
+            navigate("/login")
             return;
         }
 
@@ -64,13 +65,12 @@ let PasswordsPage = {
         for (const password of passwords) {
             list.insertAdjacentHTML('beforeend', await PasswordView.render(password));
         }
-
     }
 }
 
 async function getPasswords(userId) {
     const db = firebase.firestore();
-    const passRef = db.collection('users').doc(user.uid).collection('passwords');
+    const passRef = db.collection('users').doc(userId).collection('passwords');
 
     let passQuery = await passRef.get().catch(function(error) {
         alert("Error getting document: " + error);
