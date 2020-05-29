@@ -1,6 +1,6 @@
 import navigate from "../../app.js";
 import {ifLoggedIn, signup} from "../users.js";
-import {onClick} from "../utils.js";
+import {onClick, onSubmit} from "../utils.js";
 
 let SignupPage = {
     before_render: async () => {
@@ -26,13 +26,8 @@ let SignupPage = {
         `;
     },
     after_render: async () => {
-        let form = document.getElementById("login_form");
-        form.addEventListener("submit", (event) => {
-            event.preventDefault();
-            const formData = new FormData(form)
-            signup(formData.get("email"), formData.get("password")).then(() => {
-                navigate("/passwords")
-            });
+        onSubmit(document.getElementById("login_form"), ({email, password}) => {
+            signup(email, password).then(() => navigate("/passwords"));
         });
 
         onClick(document.getElementById("log_in"), () => {

@@ -2,6 +2,10 @@ import navigate from "../app.js";
 
 const auth = firebase.auth();
 
+export async function login(email, password) {
+    return auth.signInWithEmailAndPassword(email, password).catch(alert);
+}
+
 export async function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password).catch(alert);
 }

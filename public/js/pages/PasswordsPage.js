@@ -1,27 +1,37 @@
 import {MainHeader} from "../Headers.js";
 import {guardLogin, getUser} from "../users.js";
-import {onClick} from "../utils.js";
+import {onClick, copyHelper} from "../utils.js";
 import navigate from "../../app.js";
+import {getPasswords, getFavicon} from "../data.js";
+
+const helper = copyHelper();
 
 let PasswordView = {
     render: async (passwordData) => {
         return `
             <li class="passwords_item hoverable " id="${passwordData.id}">
                 <span class="passwords_item_name">${passwordData.name}</span>
-                <span class="passwords_item_login mono">${passwordData.login}</span>
+                <div class="passwords_item_login">
+                    <img class="clickable passwords_item_password_copy" src="../../images/key-black.svg" alt="copy"/>
+                    <span class="mono">${passwordData.login}</span>
+                </div>
             </li>
         `;
     },
     after_render: async (passwordData) => {
+        let element = document.getElementById(passwordData.id);
         if (passwordData.website) {
-            let element = document.getElementById(passwordData.id);
-            const hostname = (new URL(passwordData.website)).hostname;
-
             element.insertAdjacentHTML('beforeend', `
-                <img class="passwords_item_favicon" src="https://s2.googleusercontent.com/s2/favicons?domain=${hostname || "example.com"}" alt="favicon">
-                <a class="mono" href="${passwordData.website}" target="_blank">${passwordData.website}</a>
+                <a class="passwords_item_url" target="_blank" href="${passwordData.website}">
+                    <img class="passwords_item_favicon" src="${getFavicon(passwordData.website)}" alt="favicon">
+                    <span class="mono" >${passwordData.website}</span>
+                </a>
             `)
         }
+
+        onClick(element.getElementsByClassName("passwords_item_password_copy")[0], () => {
+            helper.copy(passwordData.password);
+        });
     }
 }
 
@@ -50,6 +60,7 @@ let PasswordsPage = {
                 </ul>
             </div>
             <div class="passwords">
+                ${helper.inject()}
                 <ul id="passwords_list">
                 </ul>
             </div>
@@ -75,25 +86,6 @@ let PasswordsPage = {
             await PasswordView.after_render(password);
         }
     }
-}
-
-async function getPasswords(userId) {
-    const db = firebase.firestore();
-    const passRef = db.collection('users').doc(userId).collection('passwords');
-
-    let passQuery = await passRef.get().catch(function(error) {
-        alert("Error getting document: " + error);
-    });
-
-    if (!passQuery || passQuery.empty) {
-        return null;
-    }
-
-    return passQuery.docs.map(query => {
-        const password = query.data();
-        password.id = query.id;
-        return password;
-    });
 }
 
 export default PasswordsPage;

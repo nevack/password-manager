@@ -1,6 +1,8 @@
 import {MainHeader} from "../Headers.js";
 import navigate from "../../app.js";
 import {getUser, guardLogin} from "../users.js";
+import {onSubmit} from "../utils.js";
+import {savePassword} from "../data.js";
 
 
 let CreatePage = {
@@ -9,7 +11,7 @@ let CreatePage = {
         await guardLogin();
     },
     render: async () => {
-        let view =  /*html*/`
+        return `
             <div class="passwords">
                 <form id="password_form" class="card_wrap">
                     <input type="text" name="name" class="mono password_form_control password_form_input" placeholder="Account Name" required>
@@ -19,32 +21,15 @@ let CreatePage = {
                     <button id="password_submit" type="submit" class="button hoverable clickable password_form_control password_form_button">Save</button>
                 </form>
             </div>
-        `
-        return view;
+        `;
     },
     after_render: async () => {
         const user = await getUser();
 
-        let form = document.getElementById("password_form");
-        form.addEventListener("submit", (event) => {
-            event.preventDefault();
-
-            const values = {};
-            new FormData(form).forEach((value, key) => {
-                    values[key] = value;
-            });
-
-            savePassword(user.uid, values).then(() => navigate("/passwords"));
-        });
-
+        onSubmit(document.getElementById("password_form"), (data) => {
+            savePassword(user.uid, data).then(() => navigate("/passwords"));
+        })
     }
-}
-
-async function savePassword(userId, passwordData) {
-    const db = firebase.firestore();
-    const passRef = db.collection('users').doc(userId).collection('passwords').doc();
-
-    passRef.set(passwordData);
 }
 
 export default CreatePage;
